@@ -1,0 +1,48 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<h1>Enter Features for Prediction</h1>
+<form id="prediction-form">
+    <label for="sepal_length">Sepal Length:</label>
+    <input type="text" id="sepal_length" name="sepal_length"><br><br>
+    <label for="sepal_width">Sepal Width:</label>
+    <input type="text" id="sepal_width" name="sepal_width"><br><br>
+    <label for="petal_length">Petal Length:</label>
+    <input type="text" id="petal_length" name="petal_length"><br><br>
+    <label for="petal_width">Petal Width:</label>
+    <input type="text" id="petal_width" name="petal_width"><br><br>
+    <button type="button" onclick="makePrediction()">Predict</button>
+</form>
+<h2 id="result"></h2>
+
+<script>
+        function makePrediction() {
+            var features = [
+                parseFloat(document.getElementById('sepal_length').value),
+                parseFloat(document.getElementById('sepal_width').value),
+                parseFloat(document.getElementById('petal_length').value),
+                parseFloat(document.getElementById('petal_width').value)
+            ];
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ features: features })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 'Prediction: ' + data.prediction;
+            });
+        }
+    </script>
+</body>
+</html>
