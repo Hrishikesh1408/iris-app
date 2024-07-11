@@ -5,7 +5,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load the pre-trained model
-model = joblib.load('KNN_model.pkl')
+model = joblib.load('knn_model.pkl')
 
 
 @app.route('/')
